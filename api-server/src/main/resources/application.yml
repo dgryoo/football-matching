@@ -10,3 +10,7 @@ spring:
     show-sql: true
     database: mysql
     open-in-view: false
+logging:
+  level:
+    root: debug
+

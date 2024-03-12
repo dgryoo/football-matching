@@ -1,8 +1,8 @@
 package api.service;
 
 
-import api.common.exception.CustomErrorEnum;
-import api.common.exception.CustomException;
+import api.common.exception.custom.DuplicateKeyException;
+import api.common.exception.custom.SourceNotFoundException;
 import api.dto.member.LoginDto;
 import api.dto.member.MemberDto;
 import api.dto.member.SignInDto;
@@ -10,7 +10,6 @@ import api.dto.member.UpdateMemberDto;
 import com.pfairplay.mysql.core.entity.Member;
 import com.pfairplay.mysql.core.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +28,7 @@ public class MemberService {
         Optional<Member> duplicatedMember = memberRepository.findByPhoneNumber(signInDto.getPhoneNumber());
 
         if (duplicatedMember.isPresent()) {
-            throw new CustomException(HttpStatus.CONFLICT, CustomErrorEnum.DUPLICATE_ENTRY);
+            throw new DuplicateKeyException();
         }
 
         Member savedMember = memberRepository.save(signInDto.toEntity());
@@ -38,7 +37,7 @@ public class MemberService {
 
     public MemberDto login(LoginDto loginDto) {
         Member member = memberRepository.findByPhoneNumber(loginDto.getPhoneNumber())
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorEnum.SOURCE_NOT_FOUND));
+                .orElseThrow(SourceNotFoundException::new);
 
         return MemberDto.fromEntity(member);
     }
@@ -46,7 +45,7 @@ public class MemberService {
     public void signOut(String id) {
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorEnum.SOURCE_NOT_FOUND));
+                .orElseThrow(SourceNotFoundException::new);
 
         memberRepository.softDeleteById(id);
         member.softDelete();
@@ -56,7 +55,7 @@ public class MemberService {
     public MemberDto getMember(String id) {
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorEnum.SOURCE_NOT_FOUND));
+                .orElseThrow(SourceNotFoundException::new);
 
         return MemberDto.fromEntity(member);
 
@@ -65,7 +64,7 @@ public class MemberService {
     public MemberDto updateMember(String id, UpdateMemberDto updateMemberDto) {
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorEnum.SOURCE_NOT_FOUND));
+                .orElseThrow(SourceNotFoundException::new);
 
         member.updateMemberInformation(
                 updateMemberDto.getPhoneNumber(),
@@ -78,7 +77,7 @@ public class MemberService {
     public void logout(String id) {
         Member member = memberRepository
                 .findById(id)
-                .orElseThrow(() -> new CustomException(HttpStatus.NOT_FOUND, CustomErrorEnum.SOURCE_NOT_FOUND));
+                .orElseThrow(SourceNotFoundException::new);
 
         member.logout();
     }

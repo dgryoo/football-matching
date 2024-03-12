@@ -1,4 +1,4 @@
-package api.common.exception;
+package api.common.exception.custom;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

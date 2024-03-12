@@ -1,4 +1,4 @@
-package api.common.exception;
+package api.common.exception.custom;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +15,6 @@ public class CustomError {
 
     private final String message;
 
-    private Map<String,String> errors = new HashMap<>();
-
-    public static CustomError fromCustomErrorEnum(CustomErrorEnum customErrorEnum) {
-        return new CustomError(customErrorEnum.getTitle(), customErrorEnum.getMessage());
-    }
+    private final Map<String,String> errors;
 
 }
