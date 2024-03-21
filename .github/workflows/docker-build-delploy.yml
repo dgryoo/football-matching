@@ -5,7 +5,7 @@ on:
       - test-cicd
 jobs:
   build-deploy-image:
-    runs-on: ubuntu:20.04
+    runs-on: self-hosted
 
     steps:
       - name: Checkout repository
