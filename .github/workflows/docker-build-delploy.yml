@@ -6,17 +6,10 @@ on:
 jobs:
   build-deploy-image:
     runs-on: self-hosted
-
+    environment: dev
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name : Test secret
-        run : |
-          echo ${{ secrets.MYSQL_TCP_PORT }}
-          echo ${{ secrets.MYSQL_DATABASE }}
-          echo ${{ secrets.MYSQL_URL }}
-          echo ${{ secrets.MYSQL_USERNAME }}
-          echo ${{ secrets.MYSQL_PASSWORD }}
 
       - name: Build docker-image
         run: docker compose build
