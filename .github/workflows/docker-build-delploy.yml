@@ -28,6 +28,6 @@ jobs:
 
       - name: Push docker-image to docker-hub
         run: |
-          docker tag pfairplay-api ryoodg/pfairplay-api:1.0
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/pfairplay-api:latest
+          docker tag pfairplay-api ryoodg/pfairplay-api:test-cicd
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/pfairplay-api:test-cicd
 
