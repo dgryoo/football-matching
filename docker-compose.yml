@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   mysql:
-    restart: always
+    restart: on-failure
     image: mysql:8
     container_name: mysql_pfairplay
     environment:
@@ -13,8 +13,8 @@ services:
       - "${MYSQL_TCP_PORT}:${MYSQL_TCP_PORT}"
 
   api:
-    restart: always
-    build: ../..
+    restart: on-failure
+    build: .
     container_name: api_server_pfairplay
     depends_on:
       - mysql
