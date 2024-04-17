@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoSettings;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -22,6 +23,7 @@ import static org.mockito.Mockito.when;
 
 @MockitoSettings
 @Transactional
+@ActiveProfiles("test")
 public class MemberServiceUnitTest {
 
     @InjectMocks

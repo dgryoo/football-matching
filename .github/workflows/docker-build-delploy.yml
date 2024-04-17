@@ -11,14 +11,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name : Test project
+        run: ./gradlew test
+
       - name: Build docker-image
         run: docker compose build
         env:
-          MYSQL_DATABASE: ${{ secrets.MYSQL_DATABASE }}
-          MYSQL_TCP_PORT: ${{ secrets.MYSQL_TCP_PORT }}
-          MYSQL_URL: ${{ secrets.MYSQL_URL }}
-          MYSQL_USERNAME: ${{ secrets.MYSQL_USERNAME }}
-          MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+          DATASOURCE_DATABASE: ${{ secrets.MYSQL_DATABASE }}
+          DATASOURCE_TCP_PORT: ${{ secrets.MYSQL_TCP_PORT }}
+          DATASOURCE_URL: ${{ secrets.MYSQL_URL }}
+          DATASOURCE_USERNAME: ${{ secrets.MYSQL_USERNAME }}
+          DATASOURCE_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
 
       - name: Log in to docker-hub
         uses: docker/login-action@v2
@@ -28,6 +31,6 @@ jobs:
 
       - name: Push docker-image to docker-hub
         run: |
-          docker tag pfairplay-api ryoodg/pfairplay-api:test-cicd
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/pfairplay-api:test-cicd
+          docker tag pfairplay-api ryoodg/pfairplay-api:latest
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/pfairplay-api:latest
 

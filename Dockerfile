@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # 소스 코드 빌드
-RUN ./gradlew :api-server:build
+RUN ./gradlew :api-server:build -x test
 
 # Base image
 FROM eclipse-temurin:17-jdk-jammy as deps
